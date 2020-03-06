@@ -43,7 +43,10 @@ module.exports = function(router, database) {
           return;
         }
         req.session.userId = user.id;
-        res.send({user: {name: user.name, email: user.email, id: user.id}});
+        database.getAllProperties({id: user.id}).then(reservations => {
+          res.send({user: {name: user.name, email: user.email, id: user.id}, reservations});
+        })
+       
       })
       .catch(e => res.send(e));
   });
